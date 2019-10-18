@@ -1,96 +1,86 @@
-
 <!DOCTYPE html>
 <html>
+
 <head>
-  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-  <title>Cal Heatmap </title>
-  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-  <meta name="robots" content="noindex, nofollow">
-  <meta name="googlebot" content="noindex, nofollow">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>Cal Heatmap </title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="googlebot" content="noindex, nofollow">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
-  <script
-    type="text/javascript"
-    src="/js/lib/dummy.js"
-    
-  ></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/cal-heatmap/3.6.2/cal-heatmap.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/cal-heatmap/3.6.2/cal-heatmap.css">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/cal-heatmap/3.6.2/cal-heatmap.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/cal-heatmap/3.6.2/cal-heatmap.source-map.js"></script>
 
-    <link rel="stylesheet" type="text/css" href="/css/result-light.css">
+    <script type="text/javascript">
+        //<![CDATA[
 
-      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
-      <script type="text/javascript" src="wa0x6e / cal-heatmap"></script>
-      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/cal-heatmap/3.6.2/cal-heatmap.js"></script>
-      <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/cal-heatmap/3.6.2/cal-heatmap.css">
-      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/cal-heatmap/3.6.2/cal-heatmap.min.js"></script>
-      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/cal-heatmap/3.6.2/cal-heatmap.source-map.js"></script>
+        window.onload = function() {
 
-  <style id="compiled-css" type="text/css">
-      
-  </style>
+            var cal = new CalHeatMap();
+            datas = {
 
+            }
+            cal.init({
+                domain: "day",
+                subDomain: "x_hour",
+                start: new Date(),
+                data: datas,
+                cellSize: 45,
+                verticalOrientation: true,
+                range: 3,
+                colLimit: 1,
+                legend: [10, 20, 30],
+                displayLegend: false,
+                subDomainTextFormat: "%H",
+                onClick: function(date, nb) {
+                    console.log(date, nb);
+                    if (datas[date.valueOf() / 1000]) {
+                        var temp = datas[date.valueOf() / 1000] + 10;
+                        if (temp > 30) {
+                            temp = 10;
+                        }
+                        datas[date.valueOf() / 1000] = temp;
+                        cal.update(datas, false, cal.RESET_SINGLE_ON_UPDATE);
+                    } else {
+                        datas[date.valueOf() / 1000] = 10;
+                        cal.update(datas, false, cal.RESET_SINGLE_ON_UPDATE);
+                    }
 
-  <!-- TODO: Missing CoffeeScript 2 -->
+                }
+            });
 
-  <script type="text/javascript">//<![CDATA[
-
-    window.onload=function(){
-      
-        var cal = new CalHeatMap();
-        datas = {
 
         }
-        cal.init({
-          domain: "day",
-          subDomain: "x_hour",
-          start: new Date(),
-          data: datas,
-          cellSize: 45,
-          verticalOrientation: true,
-          range: 3,
-          colLimit: 1,
-          legend: [10, 20, 30],
-          displayLegend: false,
-          subDomainTextFormat: "%H",
-          onClick: function(date, nb) {
-            console.log(date, nb);
-            if (datas[date.valueOf() / 1000]) {
-              var temp = datas[date.valueOf() / 1000] + 10;
-              if (temp > 30) {
-                temp = 10;
-              }
-              datas[date.valueOf() / 1000] = temp;
-              cal.update(datas, false, cal.RESET_SINGLE_ON_UPDATE);
-            } else {
-              datas[date.valueOf() / 1000] = 10;
-              cal.update(datas, false, cal.RESET_SINGLE_ON_UPDATE);
-            }
 
-          }
-        });
-
-
-    }
-
-  //]]></script>
+        //]]>
+    </script>
 
 </head>
+
 <body>
-        <div id="cal-heatmap"></div>
 
+    <div class="container">
+        <div class="row justify-content-md-center shadow p-3 mb-5 bg-white rounded">
+            <h2>
+                Daily Productivity Heatmap
+                <small class="text-muted">Just click!</small>
+            </h2>
+        </div>
+        <div class="row">
+            <div id="cal-heatmap"></div>
+        </div>
 
-  
-  <script>
-    // tell the embed parent frame the height of the content
-    if (window.parent && window.parent.parent){
-      window.parent.parent.postMessage(["resultsFrame", {
-        height: document.body.getBoundingClientRect().height,
-        slug: "m29uonfx"
-      }], "*")
-    }
+    </div>
 
-    // always overwrite window.name, in case users try to set it manually
-    window.name = "result"
-  </script>
 </body>
+
 </html>
