@@ -3,7 +3,7 @@
 
 <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <title>Cal Heatmap </title>
+    <title>Janusik </title>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta name="robots" content="noindex, nofollow">
     <meta name="googlebot" content="noindex, nofollow">
@@ -19,16 +19,28 @@
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/cal-heatmap/3.6.2/cal-heatmap.css">
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/cal-heatmap/3.6.2/cal-heatmap.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/cal-heatmap/3.6.2/cal-heatmap.source-map.js"></script>
-
+    <style>
+        #cal-heatmap .graph-label {
+            font-size: 18px;
+            fill: black;
+        }
+        
+        #cal-heatmap .grap-rect {
+            fill: #35252d;
+        }
+    </style>
     <script type="text/javascript">
         //<![CDATA[
 
-        window.onload = function() {
+        $(document).ready(function() {
+
 
             var cal = new CalHeatMap();
-            datas = {
-
+            datas = {}
+            if (localStorage.getItem("datas")) {
+                datas = JSON.parse(localStorage.getItem("datas"));
             }
+            console.log(datas);
             cal.init({
                 domain: "day",
                 subDomain: "x_hour",
@@ -38,6 +50,11 @@
                 verticalOrientation: true,
                 range: 3,
                 colLimit: 1,
+                legendColors: {
+                    min: "#ecf5e2",
+                    max: "#232181", //"#ecf5e2", "#232181"
+                    empty: "white"
+                },
                 legend: [10, 20, 30],
                 displayLegend: false,
                 subDomainTextFormat: "%H",
@@ -46,7 +63,7 @@
                     if (datas[date.valueOf() / 1000]) {
                         var temp = datas[date.valueOf() / 1000] + 10;
                         if (temp > 30) {
-                            temp = 10;
+                            temp = null;
                         }
                         datas[date.valueOf() / 1000] = temp;
                         cal.update(datas, false, cal.RESET_SINGLE_ON_UPDATE);
@@ -55,11 +72,11 @@
                         cal.update(datas, false, cal.RESET_SINGLE_ON_UPDATE);
                     }
 
+                    localStorage.setItem("datas", JSON.stringify(datas));
+
                 }
             });
-
-
-        }
+        });
 
         //]]>
     </script>
@@ -70,12 +87,18 @@
 
     <div class="container">
         <div class="row justify-content-md-center shadow p-3 mb-5 bg-white rounded">
-            <h2>
-                Daily Productivity Heatmap
-                <small class="text-muted">Just click!</small>
-            </h2>
+            <div class="col">
+                <h2>
+                    Janusik
+                    <small class="text-muted">Your Daily Productivity Heatmap</small>
+                </h2>
+            </div>
+            <div class="col">
+                <img src="sample.png" class="rounded float-left" alt="Responsive image">
+            </div>
+
         </div>
-        <div class="row">
+        <div class="row shadow-lg">
             <div id="cal-heatmap"></div>
         </div>
 
